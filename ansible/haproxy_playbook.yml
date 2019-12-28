@@ -1,5 +1,5 @@
 ---
-- name: Haproxy playbook
+- name: Perform haproxy playbook
   hosts: all
   become: yes
 
@@ -8,3 +8,18 @@
     - { role: apt, apt_packages: [ git, htop ], when: ansible_system == 'Linux' }
     - ntp
     - monit
+    - haproxy
+
+  # PS
+  tasks:
+    - name: Get virtual machine id
+      shell: ps -e | grep "VBox" | awk 'NR==1{print $1}'
+      register: unique_id
+
+    - name: Create final ini file
+      ini_file: 
+        dest: /etc/ab-haproxy-ini
+        section: general 
+        option: uniqueID 
+        value: "{{unique_id.stdout}}" 
+        mode: 0600

@@ -9,7 +9,7 @@
     src: "{{ ntp_configuration_file }}.j2"
     dest: /etc/{{ ntp_configuration_file }}
   notify:
-    - restart_ntp
+    - restart ntp
 
 - name: Install timezone information
   package:

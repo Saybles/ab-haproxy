@@ -6,14 +6,14 @@
     update_cache: true 
     cache_valid_time: "{{ apt_cache_valid_time }}"
   notify:
-    - Restart monit
+    - restart monit
 
 - name: Ensure monit is configured
   template: 
     src: monit/monitrc.j2 
     dest: /etc/monit/monitrc
   notify:
-    - Reload monit
+    - reload monit
 
 - name: Ensure monit process configs are removed
   file: 
@@ -26,7 +26,7 @@
   when: ((item.type|default("base") is defined and item.type|default("base")) and (item.process is defined and item.process) and (item.pid_path is defined and item.pid_path)) and
         (item.delete is defined and item.delete)
   notify:
-    - Reload monit
+    - reload monit
 
 - name: Ensure monit process configs are added
   template: 
@@ -39,7 +39,7 @@
   when: (item.type|default("base") is defined and item.type|default("base") and item.process is defined and item.process and item.pid_path is defined and item.pid_path) and
         (item.delete is undefined or (item.delete is defined and not item.delete))
   notify:
-    - Reload monit
+    - reload monit
 
 - name: Ensure monit pem is copied
   copy: 
@@ -48,7 +48,7 @@
     mode: 0600
   when: monit_http_ssl
   notify:
-    - Restart monit
+    - restart monit
 
 - name: Ensure monit starts on a fresh reboot
   service: 

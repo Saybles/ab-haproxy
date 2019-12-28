@@ -1,6 +1,6 @@
 ---
-- name: Restart ntp
+- name: restart ntp
   service:
     name: "{{ ntp_service }}"
     state: restarted
-  register: restart_ntp
+  # register: restart_ntp
