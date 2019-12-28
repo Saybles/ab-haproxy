@@ -1,0 +1,10 @@
+---
+- name: Haproxy playbook
+  hosts: all
+  become: yes
+
+  
+  roles:
+    - { role: apt, apt_packages: [ git, htop ], when: ansible_system == 'Linux' }
+    - ntp
+    - monit
